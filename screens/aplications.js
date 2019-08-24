@@ -34,9 +34,11 @@ export default class Aplications extends Component {
     console.log(this.state.aplications);
     return (
       <View style={styles.container}>
+        <Text>Bienvenido {this.props.navigation.state.params.name}</Text>
         <Image
           style={{ width: 100, height: 100 }}
-          source={require('../assets/images/evalogo.png')}
+          
+          source={{uri: this.props.navigation.state.params.photoUrl}}
         />
         <Text style={styles.welcome}>Aplicaciones</Text>
         <Text style={styles.instructions}>Evalua tus aplicaciones</Text>

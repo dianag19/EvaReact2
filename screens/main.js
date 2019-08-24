@@ -1,24 +1,33 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, Image, Button } from 'react-native';
 import * as Expo from "expo";
+//import { Google } from 'expo';
 import * as Google from 'expo-google-app-auth';
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' + 'Shake or press menu button for dev menu',
-});
 
 export default class Main extends Component {
-
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: '',
+      photoUrl: '',
+    }
+  }
   signIn = async () => {
     console.log("entra a signin")
     try {
-      const result = await Expo.Google.logInAsync({
-        androidClientId: "445366866611-gjn08f5sd7geok0j7dq3frnnv0aamia4.apps.googleusercontent.com",
+      const result = await Google.logInAsync({
+        androidClientId: "445366866611-g1pbnlb5vdhplmnmolndmpksmqddjsij.apps.googleusercontent.com",
         scopes: ['profile', 'email'],
       });
 
       if (result.type === 'success') {
-        console.log("entro");
+        this.setState({
+          signedIn: true,
+          name: result.user.name,
+          photoUrl: result.user.photoUrl
+        }),
+          console.log("despues de navigate dice signed es :" + this.state.signedIn),
+          this.props.navigation.navigate('Aplications',{ name: this.state.name, photoUrl: this.state.photoUrl })
       } else {
         console.log("cancelled");
       }
