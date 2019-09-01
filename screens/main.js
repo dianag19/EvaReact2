@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Image, Button } from 'react-native';
+import { Platform, StyleSheet, Text, View, Image, Button, Block, ImageBackground } from 'react-native';
 import * as Expo from "expo";
 //import { Google } from 'expo';
 import * as Google from 'expo-google-app-auth';
@@ -40,45 +40,62 @@ export default class Main extends Component {
   render() {
       const { navigate } = this.props.navigation;
     return (
-      <View style={styles.container}>
-         <Image
-          style={{width: 100, height: 100}}
-          source={require('../assets/images/evalogo.png')}
-        />
-        <Text style={styles.welcome}>Bienvenido a Eva!</Text>
-        <Text style={styles.instructions}>Evalua tus aplicaciones</Text>
-        <Button
-        title="Go to Aplications"
-        onPress={() => navigate('Aplications', {name: 'Jane'})}
-      />
-      <Button
-        title="Go to create aplication"
-        onPress={() => navigate('CreateAplication')}
-      />
-      <Button
-        title="Login with Google"
-        onPress={this.signIn}
-      />
-      </View>
+      <ImageBackground
+        source={require('../assets/images/background.png')}
+        style={styles.bgImage}
+        resizeMode="cover"
+      >
+        <View style={styles.container}>        
+          <Image
+            style={{width: 100, height: 100}}
+            source={require('../assets/images/evalogo.png')}
+          />
+          <View style={{flex: 1}}>
+            <Text style={styles.welcome}>¡Bienvenido a Eva!</Text>
+            <Text style={styles.instructions}>Evalua tus aplicaciones</Text>   
+          </View> 
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around',}}>
+            <Button
+              title="Evaluar aplicaciones"
+              onPress={() => navigate('Aplications', {name: 'Jane'})}
+            />
+            <Button
+              title="Crear aplicación"
+              onPress={() => navigate('CreateAplication')}
+            />  
+            <Button
+              title="Login con Google"
+              color={'#d50000'}
+              onPress={this.signIn}
+            />        
+          </View>   
+        </View>
+      </ImageBackground>      
     );
   }
 }
 
 const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    marginHorizontal: -20,
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
   },
   instructions: {
     textAlign: 'center',
-    color: '#333333',
+    color: '#FFFFFF',
     marginBottom: 5,
+  },
+  welcome: {
+    color: '#FFFFFF',
+    margin: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',    
   },
 });

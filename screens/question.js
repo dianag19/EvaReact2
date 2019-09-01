@@ -17,10 +17,12 @@ export default class Question extends React.Component {
       activeIndex: 0,
       carouselItems: [
         {
-          title: "Feliz"
+          title: "Feliz",
+          //image: '../assets/images/Huevo/Feliz.png',
         },
         {
-          title: "Triste"
+          title: "Triste",
+          //image: '../assets/images/Huevo/Feliz.png',
         },
         {
           title: "Satisfecho"
@@ -61,9 +63,9 @@ export default class Question extends React.Component {
 
   _renderItem({ item, index }) {
     return (
-      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{flex:1, flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center' }}>
         <Image style={styles.image} source={require('../assets/images/Huevo-Feliz.png')} />
-        <Text size={20} bold={true}>{item.title}</Text>
+        <Text style={styles.text}>{item.title}</Text>
       </View>
     )
   }
@@ -97,150 +99,130 @@ export default class Question extends React.Component {
     const { navigation, style } = this.props;
 
     return (
-      <View  >
-
-        <StatusBar barStyle="light-content" />
-        <View space="between" style={styles.padded}>
-          <View space="around" style={{ position: 'relative', zIndex: 2 }}
-          >
-            <View center>
-              <Button
-                title="SIGUIENTE"
-                onPress={() => (this.setState({
-                  index: this.state.index + 1,
-                  puntosPorPregunta: this.state.puntosPorPregunta + 100,
-                }), console.log("index: " + this.state.index), 
-                this.props.navigation.navigate('Progress', { puntos: this.state.puntosPorPregunta }))}>
-                SIGUIENTE
-                </Button>
-            </View>
-            <View center>
-              <View center>
-                <Image style={styles.logo} source={require('../assets/images/evalogo.png')} />
-              </View>
-              <Text bold style={styles.text} >
-                {this.state.questions[this.state.index]} {navigation.state.params.nombreApp}?
-              </Text>
-            </View>
-
-
-            <SafeAreaView style={styles.container}>
-              <TouchableHighlight
-                onPress={
-                  () => { this.carousel._snapToItem(this.state.activeIndex - 1) }
-                }>
-                <Image source={require('../assets/images/leftarrow.png')} />
-              </TouchableHighlight>
-
-              <View>
-                <Carousel
-                  ref={ref => this.carousel = ref}
-                  data={this.state.carouselItems}
-                  sliderWidth={250}
-                  itemWidth={250}
-                  renderItem={this._renderItem}
-                  onSnapToItem={index => this.setState({ activeIndex: index })}
-                />
-              </View>
-
-              <TouchableHighlight
-                onPress={
-                  () => { this.carousel._snapToItem(this.state.activeIndex + 1) }
-                }>
-                <Image source={require('../assets/images/rightarrow.png')} />
-              </TouchableHighlight>
-            </SafeAreaView>
+      <View style={styles.container}>        
+        <Image
+          style={{width: 80, height: 80}}
+          source={require('../assets/images/evalogo.png')}
+        />
+        <View style={{flex: 1}}>
+          <Text style={styles.welcome} >
+            {this.state.questions[this.state.index]} {navigation.state.params.nombreApp}?
+          </Text>
+        </View> 
+        <View style={{flex: 1}}>
+          <SafeAreaView style={styles.carousel}>
+            <TouchableHighlight
+              onPress={
+                () => { this.carousel._snapToItem(this.state.activeIndex - 1) }
+              }>
+              <Image source={require('../assets/images/leftarrow.png')} />
+            </TouchableHighlight>
             <View>
-              <View center>
-                <CheckBox
-                  value={this.state.checked}
-                  onValueChange={() => this.setState({ checked: !this.state.checked })}
-                />
-              </View>
+              <Carousel
+                ref={ref => this.carousel = ref}
+                data={this.state.carouselItems}
+                sliderWidth={250}
+                itemWidth={250}
+                renderItem={this._renderItem}
+                onSnapToItem={index => this.setState({ activeIndex: index })}
+              />
             </View>
-
-            <View style={{
-              justifyContent: 'space-around',
+            <TouchableHighlight
+              onPress={
+                () => { this.carousel._snapToItem(this.state.activeIndex + 1) }
+              }>
+              <Image source={require('../assets/images/rightarrow.png')} />
+            </TouchableHighlight>
+          </SafeAreaView>
+        </View>
+        
+        <CheckBox
+          value={this.state.checked}
+          onValueChange={() => this.setState({ checked: !this.state.checked })}
+        />   
+        
+        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around',}}>
+          <Button
+            title="JUSTIFICAR RESPUESTA"
+            onPress={() => { this.setModalVisible(true); }}
+            >
+          </Button>
+          <Button
+            title="SIGUIENTE"
+            onPress={() => (this.setState({
+              index: this.state.index + 1,
+              puntosPorPregunta: this.state.puntosPorPregunta + 100,
+            }), console.log("index: " + this.state.index), 
+            this.props.navigation.navigate('Progress', { puntos: this.state.puntosPorPregunta }))}>
+          </Button>       
+        </View>  
+        <View style={{ marginTop: 22 }}>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
             }}>
-              <View center>
-                <Button
-                  title="JUSTIFICAR RESPUESTA"
-                  onPress={() => { this.setModalVisible(true); }}
-                >
-                  JUSTIFICAR
-                </Button>
-              </View>
-              <View center>
-                <Button
-                  title="SIGUIENTE"
-                  onPress={() => this.props.navigation.navigate('Progress')}>
-                  SIGUIENTE
-                </Button>
-              </View>
-            </View>
-
             <View style={{ marginTop: 22 }}>
-              <Modal
-                animationType="slide"
-                transparent={false}
-                visible={this.state.modalVisible}
-                onRequestClose={() => {
-                  Alert.alert('Modal has been closed.');
-                }}>
-                <View style={{ marginTop: 22 }}>
-                  <View>
-                    <View>
-                      <Text bold style={styles.text} >
-                        ¿Por qué y cuándo sentiste esa(s) emoción(es)?
-                    </Text>
-                    </View>
-                    <View center>
-                      <View style={{ padding: 10 }}>
-                        <TextInput
-                          style={{ height: 80, padding: 10, fontSize: 20 }}
-                          placeholder="Justifica tu respuesta"
-                          onChangeText={(text) => this.setState({ text })}
-                          value={this.state.text}
-                        />
-                      </View>
-                    </View>
-                    <View center>
-                      <TouchableHighlight
-                        onPress={() => {
-                          this.setModalVisible(!this.state.modalVisible);
-                        }}>
-                        <Text>ACEPTAR</Text>
-                      </TouchableHighlight>
-                    </View>
+              <View>
+                <View>
+                  <Text bold style={styles.text} >
+                    ¿Por qué y cuándo sentiste esa(s) emoción(es)?
+                  </Text>
+                </View>
+                <View center>
+                  <View style={{ padding: 10 }}>
+                    <TextInput
+                      style={{ height: 80, padding: 10, fontSize: 20 }}
+                      placeholder="Justifica tu respuesta"
+                      onChangeText={(text) => this.setState({ text })}
+                      value={this.state.text}
+                    />
                   </View>
                 </View>
-              </Modal>
-
+                <View center>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.setModalVisible(!this.state.modalVisible);
+                    }}>
+                    <Text>ACEPTAR</Text>
+                  </TouchableHighlight>
+                </View>
+              </View>
             </View>
-
-          </View>
-        </View>
+          </Modal>
+        </View> 
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  bgImage: {
-    marginHorizontal: -20,
-  },
-  container: {
+  carousel: {
+    flex: 1,
+    flexDirection:'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },  
   image: {
     justifyContent: 'center',
-    height: 188,
-    width: 148,
+    height: 158,
+    width: 118,
   },
-  logo: {
-    height: 98,
-    width: 98,
+  text: {
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+  welcome: {
+    color: '#000000',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',    
   },
 });

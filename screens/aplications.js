@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Button,Image, FlatList } from 'react-native';
+import { Platform, StyleSheet, Text, View, Button,Image, FlatList, ImageBackground } from 'react-native';
 
 
 export default class Aplications extends Component {
@@ -33,36 +33,56 @@ export default class Aplications extends Component {
     const { navigate } = this.props.navigation;
     console.log(this.state.aplications);
     return (
-      <View style={styles.container}>
-        <Text>Bienvenido {this.props.navigation.state.params.name}</Text>
-        <Image
-          style={{ width: 100, height: 100 }}
+      <ImageBackground
+        source={require('../assets/images/background.png')}
+        style={styles.bgImage}
+        resizeMode="cover"
+      >
+        <View style={styles.container}>
+          <Image
+            style={{ width: 100, height: 100 }}          
+            source={{uri: this.props.navigation.state.params.photoUrl}}
+          />
+          <Text style={styles.welcome}>Bienvenido {this.props.navigation.state.params.name}</Text>
+          <Text style={styles.instructions}>Selecciona una aplicación para evaluar</Text>
           
-          source={{uri: this.props.navigation.state.params.photoUrl}}
-        />
-        <Text style={styles.welcome}>Aplicaciones</Text>
-        <Text style={styles.instructions}>Evalua tus aplicaciones</Text>
-        <Text style={styles.instructions}>Nombre: {this.state.name}</Text>
-        <FlatList
-          data={this.state.aplications}
-          renderItem={({ item }) =>
-            <View>
-              <Button title="BORRAR"></Button>
-              <Button title={item.nombre} style={styles.item} onPress={() => navigate('Question', { nombreApp: item.nombre })}></Button>
-            </View>
-          }
-        />
-      </View>
+            <FlatList 
+              data={this.state.aplications}
+              renderItem={({ item }) =>
+                <View>
+                  <Button title={item.nombre} onPress={() => navigate('Question', { nombreApp: item.nombre })}></Button>
+                </View>
+              }
+            />       
+        </View>
+      </ImageBackground>
+      
     );
   }
   
 }
 
 const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    marginHorizontal: -20,
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#FFFFFF',
+    marginBottom: 5,
+  },
+  welcome: {
+    color: '#FFFFFF',
+    margin: 10,
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',    
   },
 });
