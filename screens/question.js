@@ -12,7 +12,7 @@ export default class Question extends React.Component {
       index: 0,
       puntosPorPregunta: 100,
       respuestas: [],
-      questions: ['¿Qué sentiste cuando usaste la aplicación', 'Question 2'],
+      questions: ['¿Qué sentiste cuando usaste la aplicación', '¿Fue fácil usar la aplicación', '¿Fue útil la aplicación', '¿Te gusta la interfaz de la aplicación', '¿Deseas usar la aplicación'],
       modalVisible: false,
       activeIndex: 0,
       carouselItems: [
@@ -109,7 +109,7 @@ export default class Question extends React.Component {
             {this.state.questions[this.state.index]} {navigation.state.params.nombreApp}?
           </Text>
         </View> 
-        <View style={{flex: 1}}>
+        <View style={{flex: 2}}>
           <SafeAreaView style={styles.carousel}>
             <TouchableHighlight
               onPress={
@@ -156,41 +156,49 @@ export default class Question extends React.Component {
             this.props.navigation.navigate('Progress', { puntos: this.state.puntosPorPregunta }))}>
           </Button>       
         </View>  
-        <View style={{ marginTop: 22 }}>
+        <View >
           <Modal
             animationType="slide"
             transparent={false}
             visible={this.state.modalVisible}
             onRequestClose={() => {
               Alert.alert('Modal has been closed.');
-            }}>
-            <View style={{ marginTop: 22 }}>
-              <View>
-                <View>
-                  <Text bold style={styles.text} >
+            }}>            
+            <ImageBackground
+              source={require('../assets/images/background.png')}
+              style={styles.bgImage}
+              resizeMode="cover"
+            >
+              <View style={{flex: 1, alignItems: 'center', flexDirection: 'column', justifyContent: 'space-around',}}>            
+                <Image
+                  style={{width: 80, height: 80}}
+                  source={require('../assets/images/evalogo.png')}
+                />
+                <View style={{flex: 1}}>
+                  <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: 'bold', textAlign: 'center'}} >
                     ¿Por qué y cuándo sentiste esa(s) emoción(es)?
                   </Text>
+                </View> 
+                <View style={{ flex: 1 }}>
+                  <TextInput
+                    style={{ height: 80, width:280, padding: 15, fontSize: 20, backgroundColor: '#DDDDDD',
+                  }}
+                    placeholder="Justifica tu respuesta"
+                    onChangeText={(text) => this.setState({ text })}
+                    value={this.state.text}
+                  />
                 </View>
-                <View center>
-                  <View style={{ padding: 10 }}>
-                    <TextInput
-                      style={{ height: 80, padding: 10, fontSize: 20 }}
-                      placeholder="Justifica tu respuesta"
-                      onChangeText={(text) => this.setState({ text })}
-                      value={this.state.text}
-                    />
-                  </View>
-                </View>
-                <View center>
+                <View style={{flex: 1}}>
                   <TouchableHighlight
+                    style={styles.button}
                     onPress={() => {
                       this.setModalVisible(!this.state.modalVisible);
                     }}>
-                    <Text>ACEPTAR</Text>
+                    <Text style={{color: '#FFFFFF', fontWeight: 'bold'}}>ACEPTAR</Text>
                   </TouchableHighlight>
-                </View>
-              </View>
-            </View>
+                </View>                         
+              </View>           
+            </ImageBackground>   
           </Modal>
         </View> 
       </View>
@@ -199,10 +207,20 @@ export default class Question extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    marginHorizontal: -20,
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#2b94ec',//color del boton azul 
+    width: 200,
+    padding: 10
+  },
   carousel: {
+    alignItems: 'center',
     flex: 1,
     flexDirection:'row',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   container: {
@@ -211,9 +229,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },  
   image: {
-    justifyContent: 'center',
+    flex: 1,
     height: 158,
-    width: 118,
+    width: 128,
   },
   text: {
     fontSize: 17,

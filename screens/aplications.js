@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Button,Image, FlatList, ImageBackground } from 'react-native';
+import { Platform, StyleSheet, Text, View, Button,Image, FlatList, ImageBackground, TouchableHighlight } from 'react-native';
 
 
 export default class Aplications extends Component {
@@ -37,19 +37,25 @@ export default class Aplications extends Component {
         source={require('../assets/images/background.png')}
         style={styles.bgImage}
         resizeMode="cover"
-      >
+      >        
         <View style={styles.container}>
           <Image
-            style={{ width: 100, height: 100 }}          
+            style={{ width: 100, height: 100, }}          
             source={{uri: this.props.navigation.state.params.photoUrl}}
           />
+          <TouchableHighlight
+            style={styles.button}
+            onPress={() => navigate('Profile')}>
+            <Text style={{color: '#FFFFFF', fontWeight: 'bold'}}>PERFIL</Text>
+          </TouchableHighlight>
+          
           <Text style={styles.welcome}>Bienvenido {this.props.navigation.state.params.name}</Text>
           <Text style={styles.instructions}>Selecciona una aplicación para evaluar</Text>
           
             <FlatList 
               data={this.state.aplications}
               renderItem={({ item }) =>
-                <View>
+                <View >
                   <Button title={item.nombre} onPress={() => navigate('Question', { nombreApp: item.nombre })}></Button>
                 </View>
               }
@@ -66,6 +72,12 @@ const styles = StyleSheet.create({
   bgImage: {
     flex: 1,
     marginHorizontal: -20,
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#2b94ec',//color del boton azul 
+    width: 200,
+    padding: 10
   },
   container: {
     flex: 1,

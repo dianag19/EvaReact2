@@ -6,6 +6,7 @@ import Aplications from './aplications'
 import Question from './question'
 import Progress from './progress'
 import CreateAplication from './createAplications'
+import Profile from './profile'
 
 const screens = createStackNavigator({
   Main: {screen: Main},
@@ -13,6 +14,7 @@ const screens = createStackNavigator({
   Question: { screen: Question},
   Progress: { screen: Progress},
   CreateAplication: { screen: CreateAplication},
+  Profile: { screen: Profile},
 });
 
 const App = createAppContainer(screens);

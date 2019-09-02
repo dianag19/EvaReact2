@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, TextInput, Button, Text, View, Image, FlatList } from 'react-native';
+import { Platform, StyleSheet, TextInput, Button, Text, View, Image, ImageBackground } from 'react-native';
 
 
 export default class Aplications extends Component {
@@ -54,41 +54,61 @@ export default class Aplications extends Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <View >
-                <View>
-                    <Text>Nombre de la Aplicación</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Nombre de la aplicación..."
-                        onChangeText={(text) => this.updateValue(text, 'nombre')}
-                        value={this.state.nombre}
-                    />
+            <ImageBackground
+            source={require('../assets/images/background.png')}
+            style={styles.bgImage}
+            resizeMode="cover"
+          >
+            <View style={{flex: 1, alignItems: 'center', flexDirection: 'column', justifyContent: 'space-around',}}>            
+              <Image
+                style={{width: 80, height: 80}}
+                source={require('../assets/images/evalogo.png')}
+              />
+              <View style={{flex: 1}}>
+                <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: 'bold', textAlign: 'center'}} >
+                  Ingresa los datos para crear una evaluación
+                </Text>
+              </View> 
+              <View style={{ flex: 2 }}>
+                <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: 'bold', textAlign: 'center'}} >Nombre de la Aplicación</Text>
+                <TextInput
+                    style={{ height: 80, width:280, padding: 15, fontSize: 20, backgroundColor: '#DDDDDD',}}
+                    placeholder="Nombre de la aplicación..."
+                    onChangeText={(text) => this.updateValue(text, 'nombre')}
+                    value={this.state.nombre}
+                />
 
-                    <Text>Descripcion</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Descripción de la aplicación..."
-                        onChangeText={(text) => this.updateValue(text, 'descripcion')}
-                        value={this.state.descripcion}
-                    />
-
-                </View>
+                <Text style={{color: '#FFFFFF', fontSize: 16, fontWeight: 'bold', textAlign: 'center'}} >Descripción</Text>
+                <TextInput
+                    style={{ height: 80, width:280, padding: 15, fontSize: 20, backgroundColor: '#DDDDDD',}}
+                    placeholder="Descripción de la aplicación..."
+                    onChangeText={(text) => this.updateValue(text, 'descripcion')}
+                    value={this.state.descripcion}
+                />
+              </View>
+              <View style={{flex: 1}}>
                 <Button
-                    title="CREAR APLICACION"
+                    title="CREAR APLICACIÓN"
                     //onPress={() => props.signIn()}>
                     onPress={() => this.submit()}
-                ></Button>
-            </View>
+                ></Button>                
+              </View>                         
+            </View>           
+          </ImageBackground>            
         );
     }
 
 }
 
 const styles = StyleSheet.create({
+    bgImage: {
+        flex: 1,
+        marginHorizontal: -20,
+      },
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
     },
 });
